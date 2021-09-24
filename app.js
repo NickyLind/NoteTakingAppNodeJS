@@ -3,17 +3,14 @@ const yargs = require('yargs');
 const notes = require('./notes');
 
 
-const greenBG = (string) => {
-  console.log(chalk.bgGreen.cyan.bold(string));
-}
+const greenBG = (string) => console.log(chalk.bgGreen.bold(string));
 
-const redBG = (string) => {
-  console.log(chalk.bgRed.bold.black(string));
-}
 
-const cyanLetters = (string) => {
-  console.log(chalk.cyan.bold(string));
-}
+const redBG = (string) => console.log(chalk.bgRed.bold.black(string));
+
+
+const cyanLetters = (string) => console.log(chalk.cyan.bold(string));
+
 
 // Customize yargs version
 
@@ -37,7 +34,7 @@ yargs.command({
       type: 'string'
     }
   },
-  handler: function (argv) {
+  handler(argv) {
     greenBG('Adding a new note...')
     notes.addNote(argv.title, argv.body)
   }
@@ -48,8 +45,16 @@ yargs.command({
 yargs.command({
   command: 'remove',
   describe: "Remove a note",
-  handler: function () {
+  builder: {
+    title: {
+      describe: 'Note title',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler(argv) {
     redBG('Removing the note...')
+    notes.removeNote(argv.title)
   }
 })
 
@@ -57,8 +62,16 @@ yargs.command({
 yargs.command({
   command: 'read',
   describe: "Read a note",
-  handler: function () {
+  builder: {
+    title: {
+      describe: 'Note title',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler(argv) {
     cyanLetters('Reading the note...')
+    notes.readNote(argv.title);
   }
 })
 
@@ -66,8 +79,9 @@ yargs.command({
 yargs.command({
   command: 'list',
   describe: "List notes...",
-  handler: function () {
+  handler() {
     cyanLetters('Displaying list...')
+    notes.listNotes();
   }
 })
 
