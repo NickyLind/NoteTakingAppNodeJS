@@ -23,8 +23,23 @@ yargs.version('1.1.0');
 yargs.command({
   command: 'add',
   describe: 'Add a new note',
-  handler: function () {
+  builder: {
+    title: {
+      describe: "Note title",
+      demandOption: true,
+      //? demandOption is an option that will made an argument required (title here)
+      type: 'string'
+      //? will require the type of the argument to be a string
+    },
+    body: {
+      describe: "Note body",
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler: function (argv) {
     greenBG('Adding a new note...')
+    console.log('Title: ' + argv.title, '\n', 'Body: ' + argv.body);
   }
 })
 
@@ -55,4 +70,8 @@ yargs.command({
     cyanLetters('Displaying list...')
   }
 })
-console.log(yargs.argv);
+
+yargs.parse();
+// console.log(yargs.argv);
+//! yargs.parse() needs to run at the end here so that we can parse all of our arguments
+
