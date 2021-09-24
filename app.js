@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 const yargs = require('yargs');
-const getNotes = require('./notes');
+const notes = require('./notes');
 
 
 const greenBG = (string) => {
@@ -39,7 +39,7 @@ yargs.command({
   },
   handler: function (argv) {
     greenBG('Adding a new note...')
-    console.log('Title: ' + argv.title, '\n', 'Body: ' + argv.body);
+    notes.addNote(argv.title, argv.body)
   }
 })
 
